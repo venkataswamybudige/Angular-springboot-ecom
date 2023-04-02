@@ -3,7 +3,7 @@
  * Common CSS
  * ----------------------------
  */
-.img-responsive {
+/* .img-responsive {
     transition: transform .2s ;
     margin:0 auto;
     height:150px;
@@ -11,7 +11,7 @@
   }
   .img-responsive:hover {
    transform: scale(2);
-} 
+}  */
 
 body{
     font-family:Poppins,sans-serif;
@@ -723,6 +723,12 @@ table.table.table-bordered th{
 .detail-section{
     margin-top:60px
 }
+
+.detail-img{
+    width: 30%;
+}
+
+
 /**/
 
 /* 
