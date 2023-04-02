@@ -3,14 +3,15 @@
  * Common CSS
  * ----------------------------
  */
-
- *{
-    margin:0;
-    padding:0;
-    -webkit-box-sizing:border-box;
-    -moz-box-sizing:border-box;
-    box-sizing:border-box
-}
+.img-responsive {
+    transition: transform .2s ;
+    margin:0 auto;
+    height:150px;
+    width:150px;
+  }
+  .img-responsive:hover {
+   transform: scale(2);
+} 
 
 body{
     font-family:Poppins,sans-serif;
@@ -1018,6 +1019,8 @@ footer ul li{
         border-bottom-right-radius:20px;
         margin-left:6px
     }
+
+
     .total{
         background:#205b8d;
         line-height:30px;
