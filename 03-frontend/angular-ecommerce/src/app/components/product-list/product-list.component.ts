@@ -20,8 +20,10 @@ export class ProductListComponent implements OnInit {
 
   //new properties for pagination
   thePageNumber: number = 1;
-  thePageSize: number = 10;
+  thePageSize: number = 5;
   theTotalElements: number = 0;
+
+  previousKeyWord = "";
 
   constructor(private productService: ProductService,
     private route: ActivatedRoute) { }
@@ -44,15 +46,23 @@ export class ProductListComponent implements OnInit {
 
   handleSearchProducts() {
     const theKeyWord: string = this.route.snapshot.paramMap.get('keyword')!;
+
+    //now if we have a diffrent keyword than prev 
+    //then set page number to 1
+    if(this.previousKeyWord != theKeyWord){
+      this.thePageNumber = 1;
+    }
+
+    this.previousKeyWord  = theKeyWord;
+    console.log(`theKeyword=${theKeyWord} , the page number ${this.thePageNumber}`)
     //now search for the products using that keywords.
-    this.productService.searchProducts(theKeyWord).subscribe(
-      data => {
-        this.products = data;
-      }
-    )
+    this.productService.searchtProductPaginate(this.thePageNumber-1,
+                                               this.thePageSize,
+                                               theKeyWord ).subscribe(this.processResult());
 
   }
 
+ 
 
   handleListProducts() {
     //check if id parameter is available.
@@ -76,15 +86,25 @@ export class ProductListComponent implements OnInit {
     console.log(`current category id=${this.currentCategoryId},thePageNumber${this.thePageNumber}`)
     this.productService.getProductListPaginate(this.thePageNumber - 1,
       this.thePageSize,
-      this.currentCategoryId).subscribe(
-        data => {
-          this.products = data._embedded.products;
-          this.thePageNumber = data.page.number + 1;
-          this.thePageSize = data.page.size;
-          this.theTotalElements = data.page.totalElements;
-        }
-      )
+      this.currentCategoryId)
+      .subscribe(this.processResult());
+      
   }
 
+  updatePageSelect(pageSize : string){
+    this.thePageSize = +pageSize;
+    this.thePageNumber = 1;
+    this.listProducts();
+  }
+
+  processResult(){
+
+    return (data :any ) => {
+      this.products = data._embedded.products;
+      this.thePageNumber = data.page.number+1;
+      this.thePageSize = data.page.size;
+      this.theTotalElements = data.page.totalElements;
+    };
+  }
 
 }
