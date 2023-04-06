@@ -12,7 +12,7 @@
                             <h1>{{tempProduct.name}}</h1>
                         </a>
                         <div class="price">{{tempProduct.unitPrice | currency:'INR'}}</div>
-                        <a href="#" class="btn btn-dark">Add to cart</a>
+                        <button (click)="addToCart(tempProduct)" class="btn btn-dark btn-sm">Add to cart</button>
                     </div>
                 </div>
 
