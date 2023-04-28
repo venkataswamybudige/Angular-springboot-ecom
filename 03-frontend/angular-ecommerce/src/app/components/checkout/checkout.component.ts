@@ -62,10 +62,11 @@ export class CheckoutComponent implements OnInit{
         CustomValidators.notOnlyWhiteSpace])
       }),
       creditCard: this.formBuilder.group({
-        cardType : [''],
-        nameOnCard : [''],
-        cardNumber:[''],
-        securityCode:[''],
+        cardType : new FormControl('', [Validators.required]),
+        nameOnCard : new FormControl('', [Validators.required, Validators.minLength(2),
+          CustomValidators.notOnlyWhiteSpace]),
+        cardNumber:new FormControl('', [Validators?.required,Validators.pattern('[0-9]{16}')]),
+        securityCode:new FormControl('', [Validators?.required,Validators.pattern('[0-9]{3}')]),
         expirationMonth:[''],
         expirationYear:['']
       })
@@ -118,6 +119,11 @@ export class CheckoutComponent implements OnInit{
   get billingAdressState() {return this.checkOutFormGroup.get('billingAddress.state');}
   get billingAdressCountry() {return this.checkOutFormGroup.get('billingAddress.country');}
   get billingAdressZipCode() {return this.checkOutFormGroup.get('billingAddress.zipCode');}
+
+  get creditCardType() {return this.checkOutFormGroup.get('creditCard.cardType');}
+  get creditCardNameOnCard() {return this.checkOutFormGroup.get('creditCard.nameOnCard');}
+  get creditCardNumber() {return this.checkOutFormGroup.get('creditCard.cardNumber');}
+  get creditCardSecurityCode() {return this.checkOutFormGroup.get('creditCard.securityCode');}
 
   onSubmit(){
     console.log("Handling the submit button...");
