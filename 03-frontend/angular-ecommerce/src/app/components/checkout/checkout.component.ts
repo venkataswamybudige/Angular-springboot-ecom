@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, FormGroupName, Validators } from '@angular/forms';
 import { Country } from 'src/app/common/country';
 import { State } from 'src/app/common/state';
+import { CartService } from 'src/app/services/cart.service';
 import { Luv2ShopFormService } from 'src/app/services/luv2-shop-form.service';
 import { CustomValidators } from 'src/app/validators/custom-validators';
 
@@ -27,7 +28,7 @@ export class CheckoutComponent implements OnInit{
 
 
 
-  constructor(private formBuilder:FormBuilder, private luv2ShopFormService: Luv2ShopFormService){}
+  constructor(private formBuilder:FormBuilder, private luv2ShopFormService: Luv2ShopFormService, private cartService : CartService){}
   ngOnInit(): void {
     this.checkOutFormGroup = this.formBuilder.group({
       customer : this.formBuilder.group({
@@ -100,7 +101,11 @@ export class CheckoutComponent implements OnInit{
       }
     )
 
+    this.reviewCartDetails();
+
   }
+
+  
 
   get firstName() {return this.checkOutFormGroup.get('customer.firstName');}
 
@@ -185,4 +190,21 @@ export class CheckoutComponent implements OnInit{
       }
     )
     }
+
+    reviewCartDetails() {
+      //subscribe to the cart total price
+       this.cartService.totalPrice.subscribe(
+         data => {
+           console.log(`cart service total proce ${data}` )
+           this.totalPrice = data}
+   
+       );
+      //subscribe to the cart total quantity.
+         this.cartService.totalQuantity.subscribe(
+           data => {
+             console.log(`cart service total quantity ${data}` )
+             this.totalQuantity = data
+           }
+         )
+     }
 }
